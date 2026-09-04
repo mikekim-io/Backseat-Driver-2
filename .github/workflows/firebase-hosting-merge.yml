@@ -19,7 +19,7 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_BACKSEAT_DRIVER_2 || secrets.FIREBASE_SERVICE_ACCOUNT_BACKSEAT_DRIVER_DBC21 }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_BACKSEAT_DRIVER_2 }}'
           channelId: live
           projectId: backseat-driver-2
         env:
