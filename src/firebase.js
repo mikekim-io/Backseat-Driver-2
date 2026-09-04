@@ -1,18 +1,25 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCTkYa8Oea0gGKZXTUOTa-UTP72rSB81dw',
-  authDomain: 'backseat-driver-dbc21.firebaseapp.com',
-  databaseURL: 'https://backseat-driver-dbc21.firebaseio.com',
-  projectId: 'backseat-driver-dbc21',
-  storageBucket: 'backseat-driver-dbc21.appspot.com',
-  messagingSenderId: '136877489486',
-  appId: '1:136877489486:web:911ab156f0092c1515321f',
-  measurementId: 'G-N9KYGB0YPM',
+  apiKey:
+    import.meta.env.VITE_FIREBASE_API_KEY ||
+    'AIzaSyCETBo46qRQypRT1oF8y67fe9B6VRiZ-io',
+  authDomain:
+    import.meta.env.VITE_FIREBASE_AUTH_DOMAIN ||
+    'backseat-driver-2.firebaseapp.com',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'backseat-driver-2',
+  storageBucket:
+    import.meta.env.VITE_FIREBASE_STORAGE_BUCKET ||
+    'backseat-driver-2.firebasestorage.app',
+  messagingSenderId:
+    import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '958744036936',
+  appId:
+    import.meta.env.VITE_FIREBASE_APP_ID ||
+    '1:958744036936:web:a87441e189fd575e3ffa7d',
 };
 
-firebase.initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
 
-export default firebase;
+export default db;

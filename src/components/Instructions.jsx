@@ -11,17 +11,17 @@ class Instructions extends React.Component {
   }
 
   toggleInstructions() {
-    this.setState((prevState)=>({
-      showModal: !prevState.showModal
+    this.setState((prevState) => ({
+      showModal: !prevState.showModal,
     }));
   }
 
   render() {
     return (
       <>
-          <button id="instruction-button" onClick={this.toggleInstructions}>
-           i
-          </button>
+        <button id="instruction-button" onClick={this.toggleInstructions}>
+          i
+        </button>
 
         <Modal
           centered
@@ -33,9 +33,9 @@ class Instructions extends React.Component {
             <h1>Driving simulation requires use of device microphone</h1>
           </div>
           <div className="table-shell">
-            <p>How to play:
-              Navigate from your start position to the yellow end zone.
-              Only clear, concise verbal commands will drive the car.
+            <p>
+              How to play: Navigate from your start position to the yellow end
+              zone. Only clear, concise verbal commands will drive the car.
             </p>
             <Table responsive>
               <thead>
@@ -84,11 +84,8 @@ class Instructions extends React.Component {
               performance of game will be dependent on device ability to render
               WebGL graphics.
             </p>
-            </div>
-            <button onClick={this.toggleInstructions}>
-              Close Instructions
-            </button>
-
+          </div>
+          <button onClick={this.toggleInstructions}>Close Instructions</button>
         </Modal>
       </>
     );

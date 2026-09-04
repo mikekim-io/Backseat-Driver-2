@@ -1,9 +1,5 @@
-import firebase from '../firebase';
-
-// Inititializing firebase database
-// Saving reference to leaderboard table
-const db = firebase.firestore();
-const leaderboardRef = db.collection('leaderboard')
+import { db } from '../firebase';
+import { collection, getDocs, addDoc, query, orderBy } from 'firebase/firestore';
 
 /**
  * ACTION TYPES
@@ -34,22 +30,21 @@ const addToLeaderboard = (newRecord) => ({
  */
 export const fetchLeaderboard = () => async (dispatch) => {
   try {
-    const data = await leaderboardRef.orderBy('score').get();
-    const leaderboard = data.docs.map(doc => doc.data());
+    const q = query(collection(db, 'leaderboard'), orderBy('score'));
+    const snapshot = await getDocs(q);
+    const leaderboard = snapshot.docs.map((doc) => doc.data());
     dispatch(getLeaderboard(leaderboard));
   } catch (error) {
-    console.log(error)
+    console.error('Error fetching leaderboard:', error);
   }
 };
 
 export const addRecordToDb = (newRecord) => async (dispatch) => {
   try {
-    const scoreRef = leaderboardRef.doc()
-    const scoreData = await scoreRef.set(newRecord)
-    // console.log('scoreData', scoreData.doc.data())
-    // dispatch(addToLeaderboard(scoreData.data()));
+    await addDoc(collection(db, 'leaderboard'), newRecord);
+    dispatch(addToLeaderboard(newRecord));
   } catch (error) {
-    console.log(error);
+    console.error('Error adding score to leaderboard:', error);
   }
 };
 

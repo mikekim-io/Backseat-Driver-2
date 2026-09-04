@@ -1,9 +1,19 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    match /leaderboard/{docId} {
+      // Anyone can read the leaderboard
+      allow read: if true;
+      // Allow adding scores with basic validation
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 20
+                    && request.resource.data.score is number;
+      // Do not allow overwriting or deleting scores
+      allow update, delete: if false;
+    }
     match /{document=**} {
-      allow read, write: if
-          request.time < timestamp.date(2020, 12, 24);
+      allow read, write: if false;
     }
   }
 }

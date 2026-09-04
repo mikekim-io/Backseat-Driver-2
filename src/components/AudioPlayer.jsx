@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const useAudio = (url) => {
-  const [audio] = useState(new Audio('./music/ryan_andersen_synthwave.mp3'));
+  const [audio] = useState(() => new Audio('/music/ryan_andersen_synthwave.mp3'));
   const [playing, setPlaying] = useState(false);
   audio.volume = 0.2;
   audio.loop = true;
@@ -10,19 +10,21 @@ const useAudio = (url) => {
   };
 
   useEffect(() => {
-    playing ? audio.play() : audio.pause();
+    playing ? audio.play().catch(() => {}) : audio.pause();
   }, [playing]);
 
   useEffect(() => {
-    const initialAudio = function (event) {
+    const initialAudio = function () {
       toggle();
       window.removeEventListener('click', initialAudio, false);
     };
     window.addEventListener('click', initialAudio, false);
 
-    audio.addEventListener('ended', () => setPlaying(false));
+    const onEnded = () => setPlaying(false);
+    audio.addEventListener('ended', onEnded);
     return () => {
-      audio.removeEventListener('ended', () => setPlaying(false));
+      audio.removeEventListener('ended', onEnded);
+      audio.pause();
     };
   }, []);
   return [playing, toggle];
@@ -34,7 +36,7 @@ const Player = ({ url }) => {
   return (
     <div id="audio-player">
       <button id="audio-button" onClick={toggle}>
-        <img src="./icon/audio.png" alt="play-audio-icon" />
+        <img src="/icon/audio.png" alt="play-audio-icon" />
       </button>
       {playing && (
         <div id="song-info">

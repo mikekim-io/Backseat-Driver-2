@@ -1,6 +1,6 @@
-import React from 'react';
-import { useFrame, useLoader } from 'react-three-fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import React, { useRef } from 'react';
+import { useFrame, useLoader } from '@react-three/fiber';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { useBox } from '@react-three/cannon';
 import car from '../models/models/McLaren.glb';
 import { PerspectiveCamera, PointerLockControls } from '@react-three/drei';
@@ -12,24 +12,22 @@ let acc = 0;
 let baseVel = 0;
 
 const Car = (props) => {
-  //carRef: car's property in scene (read only)
-  //api: car's physics object (methods to set/subscribe)
   const gltf = useLoader(GLTFLoader, car);
   const [carRef, api] = useBox(() => ({
     mass: 1,
     args: [4.7, 1.3, 2],
     position: props.carPosition,
   }));
-  // const [randoRef, bApi] = useBox(() => ({mass:1, args:[4.7, 1.3, 2]}))
 
-  let carPosition;
-  if (carRef.current) {
-    carPosition = carRef.current.position;
-  }
-  const endZonePosition = props.position;
+  const currentPos = useRef({ x: 0, y: 1, z: 150 });
+  const endZonePosition = props.position || { x: 0, y: 0, z: -100 };
 
   useFrame(() => {
-    console.log(baseVel, acc);
+    if (carRef.current) {
+      currentPos.current = carRef.current.position;
+    }
+    const carPosition = currentPos.current;
+
     if (
       carPosition.x >= endZonePosition.x - 10 &&
       carPosition.x <= endZonePosition.x + 10 &&
@@ -113,6 +111,7 @@ const Car = (props) => {
         break;
     }
   });
+
   return (
     <>
       <mesh ref={carRef}>
@@ -127,10 +126,10 @@ const Car = (props) => {
           position={[1.8, 0, -1.825]}
           rotation={[0, (Math.PI * -45) / 180, 0]}
         />
-        <meshStandardMaterial wireframe={true} attach="material" />
+        <meshStandardMaterial wireframe={true} />
         <PointerLockControls />
       </mesh>
-      <Viewport carPosition={carPosition} />
+      <Viewport carPosition={currentPos.current} />
     </>
   );
 };

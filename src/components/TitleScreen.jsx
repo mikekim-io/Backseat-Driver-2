@@ -7,21 +7,22 @@ class Title extends React.Component {
     this.state = {
       showModal: false,
     };
+    this.toggleInstructions = this.toggleInstructions.bind(this);
     this.hoverSound = this.hoverSound.bind(this);
     this.selectSound = this.selectSound.bind(this);
     this.toggleLeaderboard = this.toggleLeaderboard.bind(this);
   }
-  toggleSfx = new Audio('./sfx/toggle.mp3');
-  selectSfx = new Audio('./sfx/select.mp3');
+  toggleSfx = new Audio('/sfx/toggle.mp3');
+  selectSfx = new Audio('/sfx/select.mp3');
 
   hoverSound() {
     this.toggleSfx.volume = 0.5;
-    this.toggleSfx.play();
+    this.toggleSfx.play().catch(() => {});
   }
 
   selectSound() {
     this.selectSfx.volume = 0.5;
-    this.selectSfx.play();
+    this.selectSfx.play().catch(() => {});
   }
 
   toggleLeaderboard() {
@@ -30,6 +31,8 @@ class Title extends React.Component {
       showModal: !this.state.showModal,
     });
   }
+
+  toggleInstructions() {}
 
   render() {
     return (
@@ -58,7 +61,10 @@ class Title extends React.Component {
           <button
             id="play-button"
             onMouseOver={() => this.hoverSound()}
-            onClick={() => (this.props.changePlaying(), this.selectSound())}
+            onClick={() => {
+              this.props.changePlaying();
+              this.selectSound();
+            }}
           >
             Drive
           </button>
