@@ -1,11 +1,10 @@
 import React, { useRef } from 'react';
-import { useFrame } from 'react-three-fiber';
+import { useFrame } from '@react-three/fiber';
 import { OrthographicCamera } from '@react-three/drei';
 
 const Viewport = (props) => {
   const viewportRef = useRef();
   const frustumSize = 800;
-  // const aspect = window.innerWidth/ window.innerHeight
 
   const miniMapLocationLeftPixels =
     window.innerWidth - 8 - window.innerWidth * 0.2;
@@ -35,12 +34,14 @@ const Viewport = (props) => {
     );
 
     gl.setScissorTest(true);
-    viewportRef.current.position.x = props.carPosition.x;
-    viewportRef.current.position.y = 300;
-    viewportRef.current.position.z = props.carPosition.z;
-    viewportRef.current.updateMatrixWorld();
-    viewportRef.current.updateProjectionMatrix();
-    gl.render(scene, viewportRef.current);
+    if (viewportRef.current && props.carPosition) {
+      viewportRef.current.position.x = props.carPosition.x;
+      viewportRef.current.position.y = 300;
+      viewportRef.current.position.z = props.carPosition.z;
+      viewportRef.current.updateMatrixWorld();
+      viewportRef.current.updateProjectionMatrix();
+      gl.render(scene, viewportRef.current);
+    }
   }, 1);
 
   return (

@@ -24,17 +24,17 @@ class WinScreen extends React.Component {
     this.hoverSound = this.hoverSound.bind(this);
     this.selectSound = this.selectSound.bind(this);
   }
-  toggleSfx = new Audio('./sfx/toggle.mp3');
-  selectSfx = new Audio('./sfx/select.mp3');
+  toggleSfx = new Audio('/sfx/toggle.mp3');
+  selectSfx = new Audio('/sfx/select.mp3');
 
   hoverSound() {
     this.toggleSfx.volume = 0.5;
-    this.toggleSfx.play();
+    this.toggleSfx.play().catch(() => {});
   }
 
   selectSound() {
     this.selectSfx.volume = 0.5;
-    this.selectSfx.play();
+    this.selectSfx.play().catch(() => {});
   }
 
   handleChange(e) {
@@ -82,8 +82,6 @@ class WinScreen extends React.Component {
       minimumIntegerDigits: 2,
       useGrouping: false,
     }); //always two digits
-    //add penalty to elapsedTime
-    //update state's elapsedTime for leaderboar
     elapsedTime = `${minutes}:${seconds}:${milliseconds}`;
 
     return (
@@ -105,6 +103,7 @@ class WinScreen extends React.Component {
                   name="name"
                   placeholder="ABC"
                   type="text"
+                  maxLength={20}
                   value={this.state.name}
                   onChange={(e) => this.handleChange(e)}
                 />

@@ -1,45 +1,82 @@
-## Backseat Driver
+# Backseat Driver 2
 
-A voice command driven 3D interactive simulation
-Please backseat drive responsibly!
+A voice command driven 3D interactive simulation.
+_Please backseat drive responsibly!_
 
-A live version of this app is available at https://backseat-driver-dbc21.web.app/
+**Live Site**: https://backseat-driver-2.web.app
 
 ## Gameplay Mechanics
 
-Backseat driver is a 3D driving simulation in which the player's movement is controlled not by keyboard commands, but by voice commands. The player's goal is to navigate through a 3D representation of a city to a predetermined area. The voice recognition model accepts several concise commands [stop, go, left, right, up, down] to traverse the world. Course completion is timed and saved when player has reached the goal.
+Backseat Driver is a 3D driving simulation in which the player's movement is controlled by voice commands rather than keyboard or touch inputs. The player's goal is to navigate through a 3D city grid to reach a designated yellow goal zone. The voice recognition model accepts several concise commands: `go`, `stop`, `left`, `right`, `up`, `down`. Course completion is timed and recorded on a global leaderboard powered by Firebase Firestore.
 
-## Technologies
+## Modern Tech Stack
 
-Backseat Driver is developed with Node.JS, three.js wrapper, react-three-fiber for 3D world rendering, react-three/cannon for 3d physics engine, TensorFlow.js' speech recognition mode, Google Firebase as a database and deployment provider, React for modular front end stately rendering and Redux for application and game state management.
+- **Runtime & Package Manager**: Node.js & `pnpm`
+- **Build Tool**: Vite 6 (ESM, fast HMR)
+- **Frontend Framework**: React 18 & React-Bootstrap 2
+- **State Management**: Redux Toolkit
+- **3D Graphics & Physics**: Three.js, `@react-three/fiber`, `@react-three/drei`, `@react-three/cannon`
+- **Machine Learning**: TensorFlow.js & `@tensorflow-models/speech-commands`
+- **Backend & Database**: Firebase 10+ (Firestore & Firebase Hosting)
 
 ## How to Play
 
-Use the following voice commands to move your car
+Use the following voice commands to control your car:
 
-- Go: Gas (set to first gear)
-- Stop: Stop
-- Right: Turn 90 degrees right
-- Left: Turn 90 degrees left
-- Up: Speed up
-- Down: Slow down
+- **Go**: Gas (Engage first gear)
+- **Stop**: Stop / Brake
+- **Right**: Turn 90 degrees right
+- **Left**: Turn 90 degrees left
+- **Up**: Accelerate
+- **Down**: Decelerate
+- **Screen click**: Enable panning camera (cursor lock)
+- **ESC Key**: Camera lock (show cursor)
 
-Make it to the yellow goal zone
+Make it to the yellow goal zone as fast as possible!
 
-## Installation
+## Installation & Local Development
 
-To install Backseat Driver, you will need to be running Node.JS with NPM
-Install all dependencies with
+### 1. Install Dependencies
 
-### `npm install`
+Make sure you have Node.js (>= 18) and `pnpm` installed:
 
-Then start the app with the command
+```bash
+pnpm install
+```
 
-### `npm start`
+### 2. Configure Environment Variables
 
-The game will be available at http://localhost:8080
+Copy `.env.example` to `.env` and fill in your Firebase project credentials if needed:
+
+```bash
+cp .env.example .env
+```
+
+### 3. Start Development Server
+
+```bash
+pnpm dev
+```
+
+The game will be available at `http://localhost:3000`.
+
+### 4. Build for Production
+
+```bash
+pnpm build
+```
+
+The production assets will be output to the `dist/` directory, ready to deploy to Firebase Hosting.
+
+## Firebase Deployment
+
+Deploy to Firebase Hosting and Firestore:
+
+```bash
+npx firebase-tools deploy
+```
 
 ## Credits
 
-Music: Synthwave - Ryan Andersen | https://freemusicarchive.org/music/Ryan_Andersen/Pop_Music/Synthwave
-Car Model: Kingman257 - McLaren | https://sketchfab.com/3d-models/mc-laren-5b3ea73446204fd0b90a8cbf24d6c3a1
+- **Music**: Synthwave - Ryan Andersen | https://freemusicarchive.org/music/Ryan_Andersen/Pop_Music/Synthwave
+- **Car Model**: Kingman257 - McLaren | https://sketchfab.com/3d-models/mc-laren-5b3ea73446204fd0b90a8cbf24d6c3a1

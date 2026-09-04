@@ -9,16 +9,21 @@ class EndZone extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getPosition(this.zoneRef.current.position);
+    if (this.zoneRef.current) {
+      this.props.getPosition({
+        x: this.zoneRef.current.position.x,
+        y: this.zoneRef.current.position.y,
+        z: this.zoneRef.current.position.z,
+      });
+    }
   }
 
   render() {
     return (
       <mesh ref={this.zoneRef} position={[0, 0, -100]}>
-        <boxBufferGeometry attach="geometry" args={[20, 100, 20]} />
+        <boxGeometry args={[20, 100, 20]} />
         <meshStandardMaterial
           wireframe={false}
-          attach="material"
           color="yellow"
           transparent
           opacity={0.6}

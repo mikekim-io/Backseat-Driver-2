@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Canvas } from 'react-three-fiber';
+import { Canvas } from '@react-three/fiber';
 import { loadModel, startListening, stopListening } from '../tensorflow';
 import { Stars, useProgress, Html } from '@react-three/drei';
 import { Physics } from '@react-three/cannon';
@@ -34,17 +34,22 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    loadModel().then(() => startListening(this.voiceAction));
+    loadModel().then(() => startListening(this.voiceAction)).catch((err) => {
+      console.error('Speech recognition failed to load:', err);
+    });
+  }
+
+  componentWillUnmount() {
+    stopListening();
   }
 
   voiceAction(command) {
     this.setState({
       action: command,
     });
-    console.log('voice command:', this.state.action);
+    console.log('voice command:', command);
   }
-  // function to pass EndZone Position
-  // up to parent as props
+
   updatePosition(endPosition) {
     this.setState({
       endPosition: endPosition,
@@ -55,7 +60,7 @@ class Game extends React.Component {
     return (
       <>
         <RestartButton />
-        <Canvas colorManagement shadowMap>
+        <Canvas shadows>
           <Stars />
           <hemisphereLight intensity={0.5} />
           <ambientLight intensity={0.2} />
@@ -64,9 +69,7 @@ class Game extends React.Component {
             penumbra={1}
             intensity={2}
             position={[150, 300, -150]}
-            lookAt={[0, 0, 300]}
-            shadow-mapSize-width={512}
-            shadow-mapSize-height={512}
+            shadow-mapSize={[512, 512]}
             shadow-camera-near={0.1}
             shadow-camera-far={500}
           />
@@ -98,7 +101,6 @@ class Game extends React.Component {
               />
             </Suspense>
           </Physics>
-          {/* <Viewport /> */}
         </Canvas>
       </>
     );
